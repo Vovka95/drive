@@ -1,3 +1,27 @@
+* {
+    color: #aaa;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Arial Black;
+}
+  
+body {
+    padding: 0;
+    margin: 0;
+}
+  
+p , h3 {
+    padding: 0;
+    margin: 0;
+  }
+  
+button {
+    border: 0;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
 /*nav bar*/
 nav ul {
     list-style-type: none;
@@ -22,3 +46,49 @@ nav li a {
 nav li a:hover {
     background-color: #111;
 }
+
+/*header page*/
+.create-button-filter {
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+}
+
+/*create button*/
+.button-area {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
+  
+.button-area button {
+    margin-top: 5px;
+    height: 40px;
+    width: 250px;
+}
+  
+.main-create-button {
+    background-color: rgba(54, 180, 11, 1);
+}
+  
+.dropdown-child .create-button {
+    background-color: rgba(54, 180, 11, 0.5);
+    width: 120px;
+}
+  
+.dropdown {
+    position: absolute;
+    display: inline-block;
+}
+  
+.dropdown-child {
+    display: none;
+}
+  
+.dropdown:hover .dropdown-child {
+    display: flex;
+    justify-content: space-between;
+}
+
