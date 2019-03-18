@@ -92,3 +92,75 @@ nav li a:hover {
     justify-content: space-between;
 }
 
+/*filter*/
+.filter {
+    height: 30px;
+    padding-top: 5px;
+    margin-bottom: 5px; 
+}
+  
+.filter-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+}
+  
+.filter-form > * {
+    margin-left: 10px;
+}
+  
+.input-date {
+    border: 1px solid rgb(235, 223, 223);
+    border-radius: 5px;
+}
+
+/*main container*/
+.container {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    height: 100%;
+    margin-top: 5px;
+    padding: 5px;
+}
+  
+.info {
+    width: 20%;
+}
+  
+.info-block {
+    position: fixed;
+    left: 5px;
+    bottom: 80px;
+}
+  
+.info-header {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid rgb(235, 223, 223);
+}
+  
+.info-block > * {
+    margin-top: 7px;
+}
+  
+.info-block div h3 {
+    color: black;
+}
+  
+.info-details {
+    display: flex;
+    justify-content: space-between;
+}
+  
+.place {
+    width: 80%;
+    min-height: 80vh;
+    border-radius: 5px;
+    border-top: 1px solid rgb(235, 223, 223);
+    border-left: 1px solid rgb(235, 223, 223);
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
