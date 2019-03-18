@@ -47,7 +47,7 @@ nav li a:hover {
     background-color: #111;
 }
 
-/*header page*/
+/*header */
 .create-button-filter {
     padding: 5px;
     display: flex;
@@ -64,7 +64,6 @@ nav li a:hover {
 }
   
 .button-area button {
-    margin-top: 5px;
     height: 40px;
     width: 250px;
 }
@@ -74,6 +73,7 @@ nav li a:hover {
 }
   
 .dropdown-child .create-button {
+    margin-top: 5px;
     background-color: rgba(54, 180, 11, 0.5);
     width: 120px;
 }
@@ -121,7 +121,6 @@ nav li a:hover {
     align-items: flex-start;
     flex-wrap: nowrap;
     height: 100%;
-    margin-top: 5px;
     padding: 5px;
 }
   
@@ -164,3 +163,27 @@ nav li a:hover {
     padding-top: 10px;
 }
 
+/*file and folder*/
+.files ul {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    height: 100%;
+}
+  
+.files ul > * {
+    margin-right: 30px;
+}
+  
+.data-folder, .data-file {
+    display: flex;
+    flex-direction: column;
+   
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.data-folder img, .data-file img {
+    width: 80px;
+    height: 50px;
+}
