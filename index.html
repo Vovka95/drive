@@ -22,8 +22,8 @@
                 <div class="dropdown">
                     <button class="main-create-button">Create</button>
                     <div class="dropdown-child slideInDown">
-                        <button class="create-button" onclick="crElement(true)">Folder</button>
-                        <button class="create-button" onclick="crElement(false)">File</button>
+                        <button class="create-button" onclick="handler.openCreateModal('creationModal', 'folder')">Folder</button>
+                        <button class="create-button" onclick="handler.openCreateModal('creationModal', 'file')">File</button>
                     </div>
                 </div>
             </div>
@@ -64,6 +64,16 @@
             </div>
         </section>
     </main>
+
+    <div id="creationModal" class="modal">
+		<div class="modal-content">
+			<span class="close" onclick="handler.closeCreateModal('creationModal')"><img src="./images/Close-128.png"></span>
+
+			<p id="descriptionPlaceholder"></p>
+			<input type="text" id="itemName">
+			<span class="button" onclick="handler.crElement('creationModal')">Create</span>
+		</div>
+	</div>
 
     <script src="script.js" type="text/javascript"></script>
 </body>

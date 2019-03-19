@@ -178,12 +178,120 @@ nav li a:hover {
 .data-folder, .data-file {
     display: flex;
     flex-direction: column;
+
+    border: 1px solid rgba(54, 180, 11, 0.5);
+    border-radius: 5px;
+    padding: 5px;
    
     position: relative;
     margin-bottom: 5px;
+}
+  
+.data-folder p, .data-file p {
+    width: 80px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+  
+.data-folder div, .data-file div {
+    display: none;
+    background: black;
+    color: white;
+    font-size: 15px;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 3px;
+  
+    top: 75%;
+    right: 10%;
+    
+    position: absolute;
+    z-index: 1;
+}
+  
+.data-folder:hover div, .data-file:hover div {
+    display: block;
 }
 
 .data-folder img, .data-file img {
     width: 80px;
     height: 50px;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(56, 33, 33); 
+    background-color: rgba(0,0,0,0.4);
+}
+  
+/* Modal Content/Box */
+.modal-content {
+    background-color: rgba(41, 128, 12, 0.8);
+    margin: 15% auto;
+    padding: 10px;
+    border: 1px solid rgba(41, 128, 12, 1);
+    width: 50%;
+}
+
+.modal-content>p {
+    color: rgb(245, 241, 241);
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+  
+.modal-content > input {
+    border: 1px solid rgba(41, 128, 12, 0.8);
+    border-radius: 5px;
+    background-color: rgb(113, 158, 98);
+    color: rgb(245, 241, 241);
+}
+  
+/* Button */
+.button {
+    color: rgb(245, 241, 241);
+    font-size: 18px;
+    font-weight: bold;
+    background-color: rgba(41, 128, 12, 0.8);
+    border: 1px solid  rgba(41, 128, 12, 0.8);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.button:hover, .button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+} 
+  
+/* The Close Button */
+.close {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+}
+  
+.close img {
+    width: 20px;
+    background-color: rgba(41, 128, 12, 0.8);
+    border: 1px solid  rgba(41, 128, 12, 0.8);
+    border-radius: 5px;
+}
+  
+.close img:hover {
+    background-color: rgba(206, 17, 17, 0.8);
+}
+  
+.close:hover, .close:focus {
+    cursor: pointer;
 }
