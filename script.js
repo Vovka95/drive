@@ -8,7 +8,12 @@ const db = {
     addElement: (IsFolder, itemName) => {
 		let data = db.getData();
 		data[itemName] = IsFolder ? {} : '';
-	}
+    },
+    
+    deleteElement: (itemName) => {
+        let data = db.getData();
+        delete data[itemName];
+    }
 }
 
 const ui = {
@@ -82,8 +87,12 @@ const ui = {
        return document.getElementById('context-menu');
     },
 
-    showContextMenu: (evt) => {
+    showContextMenu: function(evt) {
         evt.preventDefault();
+
+        if(this.classList && !this.classList.contains('selectedItem')) {
+            this.classList.add('selectedItem');
+        }
 
         let contextMenu = ui.getContextMenu();
 
@@ -96,9 +105,9 @@ const ui = {
         this.classList.toggle('selectedItem');
     },
 
-    getInputValue: (sId) => {
-		let inputValue = document.getElementById(sId).value;
-		document.getElementById(sId).value = '';
+    getInputValue: (id) => {
+		let inputValue = document.getElementById(id).value;
+		document.getElementById(id).value = '';
 		return inputValue;
 	},
 
@@ -131,10 +140,19 @@ const handler = {
         })
     },
 
+    deleteSelectItem: () => {
+        ui.getFileList().childNodes.forEach(el => {
+            if(el.classList.contains('selectedItem')) {
+                db.deleteElement(el.id);
+            }
+        })
+
+        handler.displayFiles();
+    },
+
     displayFiles: () => {
         let data = db.getData();
         ui.removeFileList();
-
         
         ui.populationFileList(data);
     }
