@@ -1,8 +1,53 @@
 const db = {
+    data: {},
 
+    getData: () => {
+        return db.data;
+    },
+
+    addElement: (IsFolder, itemName) => {
+		let data = db.getData();
+		data[itemName] = IsFolder ? {} : '';
+	}
 }
 
 const ui = {
+    openCreateModal: (id, elType) => {
+        let div = document.getElementById(id);
+        let p = document.getElementById('descriptionPlaceholder');
+    
+        p.innerHTML = `Enter name of ${elType}:`;
+    
+        div.style.display = 'block';
+    },
+
+    closeCreateModal: (id) => {
+        document.getElementById(id).style.display = 'none';
+    },
+
+    populationFileList: (data) => {
+        let fileList = ui.getFileList();
+
+        for(const name in data) {
+            if(data.hasOwnProperty(name)) {
+                let isFolder = typeof data[name] === 'object';
+
+                fileList.appendChild(ui.crElement(isFolder, name));
+            }
+        }
+    },
+
+    getFileList: () => {
+        return document.getElementById('files-list');
+    },
+
+    removeFileList: () => {
+        let fileList = ui.getFileList();
+        while (fileList.firstChild) {
+            fileList.removeChild(fileList.firstChild);
+        }
+    },
+
     crElement: (isFolder, itemName) => {
         let div = document.createElement('div');
         let hintDiv = document.createElement('div');
@@ -22,34 +67,14 @@ const ui = {
 
         div.addEventListener('contextmenu', ui.showContextMenu);
     
-        ui.addElement(div);
-    },
-
-    addElement: (element) => {
-        let fileList = document.getElementById('files-list');
-    
-        fileList.appendChild(element);
-    
-        return fileList;
+        return div;
     },
 
     createImgItem: (isFolder) => {
         let img = document.createElement('img');
         img.src = isFolder ? './images/folder-solid.svg' : './images/file-solid.svg';
+
         return img;
-    },
-
-    openCreateModal: (id, elType) => {
-        let div = document.getElementById(id);
-        let p = document.getElementById('descriptionPlaceholder');
-    
-        p.innerHTML = `Enter name of ${elType}:`;
-    
-        div.style.display = 'block';
-    },
-
-    closeCreateModal: (id) => {
-        document.getElementById(id).style.display = 'none';
     },
 
     getContextMenu: () => {
@@ -88,10 +113,20 @@ const handler = {
         ui.closeCreateModal(id);
     },
 
-    crElement: (id) => {
-        ui.crElement(ui.getIsFolder(), ui.getInputValue('itemName'));
+    addElement: (id) => {
+        db.addElement(ui.getIsFolder(), ui.getInputValue('itemName'));
+
+        handler.displayFiles();
         ui.closeCreateModal(id);
     },
+
+    displayFiles: () => {
+        let data = db.getData();
+        ui.removeFileList();
+
+        
+        ui.populationFileList(data);
+    }
 }
 
 document.onclick = () => {
