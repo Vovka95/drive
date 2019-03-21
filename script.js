@@ -65,6 +65,7 @@ const ui = {
         div.id = itemName;
         div.classList.add(isFolder ? 'data-folder' : 'data-file');
 
+        div.addEventListener('click', ui.selectItem);
         div.addEventListener('contextmenu', ui.showContextMenu);
     
         return div;
@@ -89,6 +90,10 @@ const ui = {
         contextMenu.style.left = evt.pageX + 'px';
         contextMenu.style.top = evt.pageY + 'px'; 
         contextMenu.style.display = 'block';
+    },
+
+    selectItem: function() {
+        this.classList.toggle('selectedItem');
     },
 
     getInputValue: (sId) => {

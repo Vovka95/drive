@@ -220,6 +220,15 @@ nav li a:hover {
     height: 50px;
 }
 
+.data-folder.selectedItem, .data-file.selectedItem {
+    background-color: rgba(54, 180, 11, 1);
+    border-radius: 5px;
+}
+  
+.data-folder.selectedItem p, .data-file.selectedItem p {
+    color: white;
+}
+
 /* The Modal (background) */
 .modal {
     display: none; 
