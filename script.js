@@ -125,6 +125,12 @@ const handler = {
         ui.closeCreateModal(id);
     },
 
+    selectAll: () => {
+        ui.getFileList().childNodes.forEach(el => {
+            el.classList.add('selectedItem');
+        })
+    },
+
     displayFiles: () => {
         let data = db.getData();
         ui.removeFileList();
