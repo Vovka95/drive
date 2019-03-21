@@ -19,6 +19,8 @@ const ui = {
 
         div.id = itemName;
         div.classList.add(isFolder ? 'data-folder' : 'data-file');
+
+        div.addEventListener('contextmenu', ui.showContextMenu);
     
         ui.addElement(div);
     },
@@ -50,6 +52,20 @@ const ui = {
         document.getElementById(id).style.display = 'none';
     },
 
+    getContextMenu: () => {
+       return document.getElementById('context-menu');
+    },
+
+    showContextMenu: (evt) => {
+        evt.preventDefault();
+
+        let contextMenu = ui.getContextMenu();
+
+        contextMenu.style.left = evt.pageX + 'px';
+        contextMenu.style.top = evt.pageY + 'px'; 
+        contextMenu.style.display = 'block';
+    },
+
     getInputValue: (sId) => {
 		let inputValue = document.getElementById(sId).value;
 		document.getElementById(sId).value = '';
@@ -59,7 +75,7 @@ const ui = {
     getIsFolder: () => {
         let elType = document.getElementById('descriptionPlaceholder');
 
-        return (elType.innerText.indexOf('folder') > 0) ? true : false;   
+        return (elType.innerText.indexOf('folder') > 0);   
     }
 }
 
@@ -75,5 +91,9 @@ const handler = {
     crElement: (id) => {
         ui.crElement(ui.getIsFolder(), ui.getInputValue('itemName'));
         ui.closeCreateModal(id);
-    }
+    },
+}
+
+document.onclick = () => {
+    ui.getContextMenu().style.display = 'none';
 }
