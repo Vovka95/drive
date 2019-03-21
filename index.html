@@ -57,7 +57,7 @@
                 </div>	
             </div>	
         </section>
-        <section class="place">
+        <section class="place" oncontextmenu="handler.showContextMenu(event)">
             <div id="breadcrumbs"></div>
             <div class="files">
                 <ul id='files-list'></ul>			
@@ -78,7 +78,7 @@
     <div id="context-menu" oncontextmenu="event.preventDefault();">
 		<ul>
             <li onclick="handler.selectAll()"><img src="./images/select.png"> Select all</li>
-			<li onclick="handler.deleteSelectItem()"><img src="./images/Close-128.png"> Delete selected</li>
+			<li onclick="handler.deleteSelectItem()" id='deleteOption'><img src="./images/Close-128.png"> Delete selected</li>
 			<li onclick="" id='renameOption'><img src="./images/rename.png"> Rename selected</li>
 		</ul>
 	</div>

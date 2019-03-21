@@ -87,12 +87,27 @@ const ui = {
        return document.getElementById('context-menu');
     },
 
+    getSelectedItem: () => {
+        let selected = 0;
+
+        ui.getFileList().childNodes.forEach(el => {
+            if(el.classList.contains('selectedItem')) {
+                selected++;
+            }
+        })
+
+        return selected;
+    },
+
     showContextMenu: function(evt) {
         evt.preventDefault();
 
         if(this.classList && !this.classList.contains('selectedItem')) {
             this.classList.add('selectedItem');
         }
+
+        document.getElementById('renameOption').style.display = (ui.getSelectedItem() === 1) ? "block" : "none";
+        document.getElementById('deleteOption').style.display = (ui.getSelectedItem() === 0) ? "none" : "block";
 
         let contextMenu = ui.getContextMenu();
 
@@ -150,6 +165,13 @@ const handler = {
         handler.displayFiles();
     },
 
+    showContextMenu: function (evt) {
+        let hasChild = document.getElementById('files-list');
+        if(hasChild.hasChildNodes()) {
+            ui.showContextMenu(evt);
+        }   
+	},
+
     displayFiles: () => {
         let data = db.getData();
         ui.removeFileList();
@@ -160,4 +182,6 @@ const handler = {
 
 document.onclick = () => {
     ui.getContextMenu().style.display = 'none';
+
+    /* add not select all*/
 }
