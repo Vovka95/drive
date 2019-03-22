@@ -1,8 +1,26 @@
 const db = {
     data: {},
 
-    getData: () => {
-        return db.data;
+    getData: function() {
+        this.sortData();
+        return this.data;
+    },
+
+    sortData: function() {
+        let folder = {};
+        let file = {};
+        
+        for(let key in this.data) {
+            if (this.data.hasOwnProperty(key)) {
+                if (typeof this.data[key] === 'object') {
+                    folder[key] = this.data[key];
+                } else {
+                    file[key] = this.data[key];
+                }
+            }
+        }
+
+        this.data = { ...folder, ...file };
     },
 
     addElement: (IsFolder, itemName) => {
@@ -143,7 +161,16 @@ const handler = {
     },
 
     addElement: (id) => {
-        db.addElement(ui.getIsFolder(), ui.getInputValue('itemName'));
+        let itemName = ui.getInputValue('itemName');
+        
+        for(let key in db.data) {
+           if(key === itemName) {
+            alert('this name is already busy');
+            ui.closeCreateModal(id);
+           }
+        }
+        
+        db.addElement(ui.getIsFolder(), itemName);
 
         handler.displayFiles();
         ui.closeCreateModal(id);
