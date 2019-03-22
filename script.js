@@ -55,7 +55,9 @@ const ui = {
             if(data.hasOwnProperty(name)) {
                 let isFolder = typeof data[name] === 'object';
 
-                fileList.appendChild(ui.crElement(isFolder, name));
+                if (!document.getElementById('only-folders').checked || isFolder) {
+                    fileList.appendChild(ui.crElement(isFolder, name));
+                }        
             }
         }
     },
