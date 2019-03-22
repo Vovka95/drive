@@ -165,8 +165,9 @@ const handler = {
         
         for(let key in db.data) {
            if(key === itemName) {
-            alert('this name is already busy');
             ui.closeCreateModal(id);
+            alert('this name is already busy, please put another name');
+            return;
            }
         }
         
