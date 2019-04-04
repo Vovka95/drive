@@ -214,7 +214,16 @@ const handler = {
 
     renameItem: function (evt, id) {
 		let oldName = ui.getSelectedItem().shift().id;
-		let newName = ui.getInputValue('renameItemName');
+        let newName = ui.getInputValue('renameItemName');
+        
+        for(let key in db.data) {
+            if(key === newName) {
+             ui.closeModal(id);
+             alert('this name is already busy, please put another name');
+             return;
+            }
+         }
+
 		db.renameElement(oldName, newName);
 
 		handler.displayFiles();
