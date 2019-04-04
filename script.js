@@ -1,3 +1,16 @@
+$ = {
+    div: (sId, sText, fnOnClick) => {
+		let div = document.createElement('div');
+		div.appendChild(document.createTextNode(sText));
+		if (fnOnClick) {
+			div.addEventListener('click', fnOnClick);
+		}
+		div.id = sId;
+
+		return div;
+	}  
+}
+
 const db = {
     data: {},
 
@@ -24,23 +37,25 @@ const db = {
     },
 
     addElement: (IsFolder, itemName) => {
-		let data = db.getData();
+		let data = ui.getCurrentFolder(db.getData());
 		data[itemName] = IsFolder ? {} : '';
     },
 
     renameElement: (oldName, newName) => {
-		let data = db.getData();
+		let data = ui.getCurrentFolder(db.getData());
 		data[newName] = data[oldName];
 		delete data[oldName];
 	},
     
     deleteElement: (itemName) => {
-        let data = db.getData();
+        let data = ui.getCurrentFolder(db.getData());
         delete data[itemName];
     }
 }
 
 const ui = {
+    location: '/',
+
     openModal: (id, elType) => {
         let div = document.getElementById(id);
         let description = document.getElementById('descriptionPlaceholder');
@@ -54,8 +69,26 @@ const ui = {
         document.getElementById(id).style.display = 'none';
     },
 
+    getCurrentFolder: (data) => {
+		let aLocation = ui.getLocation();
+		for(let i = 0; i < aLocation.length; i++) {
+				data = data[aLocation[i]];
+		}
+		return data;
+    },
+    
+	getLocation: () => {
+		return ui.location.split('/').filter(el => el !== '');
+	},
+
     populationFileList: (data) => {
         let fileList = ui.getFileList();
+
+        data = ui.getCurrentFolder(data);
+
+		if (ui.getLocation().length > 0) {
+			fileList.appendChild(ui.createParentFolder());
+		}
 
         for(const name in data) {
             if(data.hasOwnProperty(name)) {
@@ -79,6 +112,22 @@ const ui = {
         }
     },
 
+    createParentFolder: () => {
+		let div = document.createElement('div');
+		div.appendChild(ui.createImgItem(true, 'parentFolder'));
+		
+		let text = document.createTextNode('..');
+		div.appendChild(text);
+
+		div.id = 'parentFolder';
+		div.classList.add('data-folder');
+
+		div.addEventListener('click', ui.selectItem);
+		div.addEventListener('dblclick', ui.openParentFolder);
+
+		return div;
+	},
+
     crElement: (isFolder, itemName) => {
         let div = document.createElement('div');
         let hintDiv = document.createElement('div');
@@ -97,14 +146,15 @@ const ui = {
         div.classList.add(isFolder ? 'data-folder' : 'data-file');
 
         div.addEventListener('click', ui.selectItem);
+        div.addEventListener('dblclick', ui.openItem);
         div.addEventListener('contextmenu', ui.showContextMenu);
     
         return div;
     },
 
-    createImgItem: (isFolder) => {
+    createImgItem: (isFolder, id) => {
         let img = document.createElement('img');
-        img.src = isFolder ? './images/folder-solid.svg' : './images/file-solid.svg';
+        img.src = isFolder ? ((id === 'parentFolder') ? './images/folder-open-solid.svg' : './images/folder-solid.svg') : './images/file-solid.svg';
 
         return img;
     },
@@ -140,6 +190,38 @@ const ui = {
         contextMenu.style.top = evt.pageY + 'px'; 
         contextMenu.style.display = 'block';
     },
+
+    openItem: (evt) => {
+		let element = evt.target.id ? evt.target : evt.target.parentNode.id ? evt.target.parentNode : evt.target.parentNode.parentNode;
+		if (element.classList.contains('data-folder')) {
+			ui.location += element.id + '/';
+		}
+		handler.displayFiles();
+    },
+    
+	openParentFolder: (evt) => {
+		let lastIndex = ui.location.lastIndexOf('/', ui.location.length - 2);
+		ui.location = lastIndex === 0 ? '/' : ui.location.substring(0, lastIndex + 1);
+
+		handler.displayFiles();
+    },
+    
+	updateBreadcrumbs: () => {
+		let totalPath = '/';
+		let breadcrumbs = document.getElementById('breadcrumbs');
+
+		while (breadcrumbs.firstChild) {
+			breadcrumbs.removeChild(breadcrumbs.firstChild);
+		}
+
+		breadcrumbs.appendChild($.div(totalPath, ' / > ', handler.breadcrumbNavigate));
+
+		ui.getLocation().forEach(el => {
+			totalPath += el + '/';
+			let div_crumb = $.div(totalPath, el + ' > ', handler.breadcrumbNavigate);
+			breadcrumbs.appendChild(div_crumb);
+		});
+	},
 
     selectItem: function() {
         this.classList.toggle('selectedItem');
@@ -235,11 +317,18 @@ const handler = {
         if(hasChild.hasChildNodes()) {
             ui.showContextMenu(evt);
         }   
+    },
+    
+    breadcrumbNavigate: function (evt) {
+		ui.location = evt.target.id;
+		handler.displayFiles();
 	},
 
     displayFiles: () => {
         let data = db.getData();
         ui.removeFileList();
+
+        ui.updateBreadcrumbs();
         
         ui.populationFileList(data);
     }
