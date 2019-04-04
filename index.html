@@ -22,8 +22,8 @@
                 <div class="dropdown">
                     <button class="main-create-button">Create</button>
                     <div class="dropdown-child slideInDown">
-                        <button class="create-button" onclick="handler.openCreateModal('creationModal', 'folder')">Folder</button>
-                        <button class="create-button" onclick="handler.openCreateModal('creationModal', 'file')">File</button>
+                        <button class="create-button" onclick="handler.openModal('creationModal', 'folder')">Folder</button>
+                        <button class="create-button" onclick="handler.openModal('creationModal', 'file')">File</button>
                     </div>
                 </div>
             </div>
@@ -67,19 +67,29 @@
 
     <div id="creationModal" class="modal">
 		<div class="modal-content">
-			<span class="close" onclick="handler.closeCreateModal('creationModal')"><img src="./images/Close-128.png"></span>
+			<span class="close" onclick="handler.closeModal('creationModal')"><img src="./images/Close-128.png"></span>
 
 			<p id="descriptionPlaceholder"></p>
 			<input type="text" id="itemName">
 			<span class="button" onclick="handler.addElement('creationModal')">Create</span>
 		</div>
     </div>
+
+    <div id="renameModal" class="modal">
+		<div class="modal-content">
+			<span class="close" onclick="handler.closeModal('renameModal')"><img src="./images/Close-128.png"></span>
+	
+			<p id="renameDescriptionPlaceholder">Enter new name of folder:</p>
+			<input type="text" id="renameItemName">
+			<span class="button" onclick="handler.renameItem(event, 'renameModal')">Rename</span>
+		</div>
+	</div>
     
     <div id="context-menu" oncontextmenu="event.preventDefault();">
 		<ul>
-            <li onclick="handler.selectAll()"><img src="./images/select.png"> Select all</li>
-			<li onclick="handler.deleteSelectItem()" id='deleteOption'><img src="./images/Close-128.png"> Delete selected</li>
-			<li onclick="" id='renameOption'><img src="./images/rename.png"> Rename selected</li>
+            <li onclick="handler.selectAll(event)"><img src="./images/select.png"> Select all</li>
+			<li onclick="handler.deleteSelectItem(event)" id='deleteOption'><img src="./images/Close-128.png"> Delete selected</li>
+			<li onclick="handler.openRenameModal(event)" id='renameOption'><img src="./images/rename.png"> Rename selected</li>
 		</ul>
 	</div>
 

@@ -357,3 +357,17 @@ nav li a:hover {
     background:rgba(54, 180, 11, 1);
     color:#FFF;
 }
+
+#context-menu #renameOption {
+    display: none;
+}
+
+/* breadcrumbs */
+
+#breadcrumbs div {
+    display: inline;
+}
+  
+#breadcrumbs div:hover {
+    color: rgba(54, 180, 11, 1);
+}  

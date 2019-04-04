@@ -27,6 +27,12 @@ const db = {
 		let data = db.getData();
 		data[itemName] = IsFolder ? {} : '';
     },
+
+    renameElement: (oldName, newName) => {
+		let data = db.getData();
+		data[newName] = data[oldName];
+		delete data[oldName];
+	},
     
     deleteElement: (itemName) => {
         let data = db.getData();
@@ -35,16 +41,16 @@ const db = {
 }
 
 const ui = {
-    openCreateModal: (id, elType) => {
+    openModal: (id, elType) => {
         let div = document.getElementById(id);
-        let p = document.getElementById('descriptionPlaceholder');
+        let description = document.getElementById('descriptionPlaceholder');
     
-        p.innerHTML = `Enter name of ${elType}:`;
+        description.innerHTML = `Enter name of ${elType}:`;
     
         div.style.display = 'block';
     },
 
-    closeCreateModal: (id) => {
+    closeModal: (id) => {
         document.getElementById(id).style.display = 'none';
     },
 
@@ -108,13 +114,12 @@ const ui = {
     },
 
     getSelectedItem: () => {
-        let selected = 0;
+        let selected = [];
 
         ui.getFileList().childNodes.forEach(el => {
-            if(el.classList.contains('selectedItem')) {
-                selected++;
-            }
-        })
+            if (el.classList.contains('selectedItem'))
+				selected.push(el);
+		});
 
         return selected;
     },
@@ -126,8 +131,8 @@ const ui = {
             this.classList.add('selectedItem');
         }
 
-        document.getElementById('renameOption').style.display = (ui.getSelectedItem() === 1) ? "block" : "none";
-        document.getElementById('deleteOption').style.display = (ui.getSelectedItem() === 0) ? "none" : "block";
+        document.getElementById('renameOption').style.display = (ui.getSelectedItem().length === 1) ? "block" : "none";
+        document.getElementById('deleteOption').style.display = (ui.getSelectedItem().length === 0) ? "none" : "block";
 
         let contextMenu = ui.getContextMenu();
 
@@ -154,12 +159,12 @@ const ui = {
 }
 
 const handler = {
-    openCreateModal: (id, elType) => {
-        ui.openCreateModal(id, elType);
+    openModal: (id, elType) => {
+        ui.openModal(id, elType);
     },
 
-    closeCreateModal: (id) => {
-        ui.closeCreateModal(id);
+    closeModal: (id) => {
+        ui.closeModal(id);
     },
 
     addElement: (id) => {
@@ -167,7 +172,7 @@ const handler = {
         
         for(let key in db.data) {
            if(key === itemName) {
-            ui.closeCreateModal(id);
+            ui.closeModal(id);
             alert('this name is already busy, please put another name');
             return;
            }
@@ -176,7 +181,7 @@ const handler = {
         db.addElement(ui.getIsFolder(), itemName);
 
         handler.displayFiles();
-        ui.closeCreateModal(id);
+        ui.closeModal(id);
     },
 
     selectAll: () => {
@@ -194,6 +199,27 @@ const handler = {
 
         handler.displayFiles();
     },
+
+    openRenameModal: (event) => {
+        let item = ui.getSelectedItem().shift();
+        let elType = item.classList.contains('data-folder') ? 'folder' : 'file';
+
+        let description = document.getElementById('renameDescriptionPlaceholder');
+        description.innerText = description.innerText.replace(/folder|file/gi, elType);
+
+        document.getElementById('renameItemName').value = item.id;
+
+        handler.openModal('renameModal');
+    },
+
+    renameItem: function (evt, id) {
+		let oldName = ui.getSelectedItem().shift().id;
+		let newName = ui.getInputValue('renameItemName');
+		db.renameElement(oldName, newName);
+
+		handler.displayFiles();
+		ui.closeModal(id);
+	},
 
     showContextMenu: function (evt) {
         let hasChild = document.getElementById('files-list');
