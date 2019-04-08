@@ -195,7 +195,9 @@ const ui = {
 		let element = evt.target.id ? evt.target : evt.target.parentNode.id ? evt.target.parentNode : evt.target.parentNode.parentNode;
 		if (element.classList.contains('data-folder')) {
 			ui.location += element.id + '/';
-		}
+        }
+        
+        
 		handler.displayFiles();
     },
     
